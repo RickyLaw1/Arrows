@@ -1,0 +1,49 @@
+@import "partials/setup";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: rgb(110, 110, 110);
+}
+
+/* Game Screen Styling */
+.eventScreen {
+  height: 65vh;
+}
+
+/* Generated Arrows Styling */
+.arrow {
+  width: 50px;
+  color: white;
+}
+
+/* Controls Styling */
+.controlKeys {
+  position: relative;
+  height: 35vh;
+  border: 1px solid #000;
+  width: 320px;
+  img {
+    position: absolute;
+    width: 100px;
+  }
+  .leftArrow {
+    left: 0;
+    bottom: 0;
+  }
+  .upArrow {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .downArrow {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .rightArrow {
+    right: 0;
+    bottom: 0;
+  }
+}
