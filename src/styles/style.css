@@ -159,6 +159,10 @@ input::-moz-focus-inner {
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+* {
+  padding: 0;
+  margin: 0; }
+
 body {
   margin: 0;
   padding: 0;
@@ -197,3 +201,9 @@ body {
   .controlKeys .rightArrow {
     right: 0;
     bottom: 0; }
+
+.timer {
+  border: 1px solid #000; }
+  .timer .timeLeft {
+    background-color: #0772ca;
+    width: 100%; }
