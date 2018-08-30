@@ -5,32 +5,28 @@ import leftArrow from "./../assets/arrow-alt-circle-left-regular.svg";
 import rightArrow from "./../assets/arrow-alt-circle-right-regular.svg";
 
 class Randomize extends Component {
-  constructor() {
-    super();
-    this.state = {
-      randomArrows: []
-    };
-  }
-
   random = number => Math.floor(Math.random() * number);
 
   randomizer = () => {
+    const arrows = [
+      this.props.keyPress.ArrowUp.imgSrc,
+      this.props.keyPress.ArrowDown.imgSrc,
+      this.props.keyPress.ArrowLeft.imgSrc,
+      this.props.keyPress.ArrowRight.imgSrc
+    ];
+
+    // // Making an array of arrows with randomized directions
+    // for (let i = 0; i < 4; i++) {
+    //   randomArrows.push(arrows[this.random(4)]);
+    // }
+
+    return arrows[this.random(4)];
+
     // console.log(this.props.keyPress.ArrowUp);
 
-    const arrows = [
-      { src: upArrow, pressed: this.props.keyPress.ArrowUp },
-      { src: downArrow, pressed: this.props.keyPress.ArrowDown },
-      { src: leftArrow, pressed: this.props.keyPress.ArrowLeft },
-      { src: rightArrow, pressed: this.props.keyPress.ArrowRight }
-    ];
-    const randomArrows = [];
+    // const randomArrows = [];
 
-    // Making an array of arrows with randomized directions
-    for (let i = 0; i < 4; i++) {
-      randomArrows.push(arrows[this.random(4)]);
-    }
-
-    this.setState({ randomArrows: randomArrows });
+    // this.setState({ randomArrows: randomArrows });
   };
 
   inputChecker = () => {};
@@ -39,17 +35,21 @@ class Randomize extends Component {
     return (
       <div>
         <div className="arrowsContainer">
-          {this.state.randomArrows.map((arrow, i) => {
-            return arrow.pressed ? (
-              <p>YES</p>
-            ) : (
-              <img src={arrow.src} alt="" className="arrow" key={i} />
-            );
-
-            // return <img src={arrow.src} alt="" className="arrow" key={i} />;
-          })}
+          <img
+            src={this.props.keyPress.ArrowUp.imgSrc}
+            alt=""
+            className="arrow"
+          />
+          <img
+            src={this.props.keyPress.ArrowUp.imgSrc}
+            alt=""
+            className="arrow"
+          />
+          {/* {this.state.randomArrows.map((arrow, i) => {
+            return <img src={arrow} alt="" className="arrow" key={i} />;
+          })} */}
         </div>
-        <button onClick={this.randomizer}>Randomize!</button>
+        {/* <button onClick={this.randomizer}>Randomize!</button> */}
       </div>
     );
   }
