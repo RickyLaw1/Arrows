@@ -160,8 +160,8 @@ input::-moz-focus-inner {
   box-sizing: border-box; }
 
 * {
-  padding: 0;
-  margin: 0; }
+  margin: 0;
+  font-family: "Gloria Hallelujah", cursive; }
 
 body {
   margin: 0;
@@ -169,14 +169,44 @@ body {
   font-family: sans-serif;
   background-color: #6e6e6e; }
 
+button {
+  padding: 5px 20px;
+  width: 100px;
+  background-color: transparent;
+  border: 5px solid #000;
+  font-weight: 700;
+  border-radius: 40px; }
+
+p {
+  font-weight: 600; }
+
 /* Game Screen Styling */
+.gameScreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
 .eventScreen {
-  height: 65vh; }
+  height: 65vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
 
 /* Generated Arrows Styling */
 .arrow {
   width: 50px;
   color: white; }
+
+.arrowsContainer {
+  max-width: 400px;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; }
 
 /* Controls Styling */
 .controlKeys {
@@ -203,7 +233,7 @@ body {
     bottom: 0; }
 
 .timer {
-  border: 1px solid #000; }
+  width: 100%; }
   .timer .timeLeft {
-    background-color: #0772ca;
+    height: 5vh;
     width: 100%; }

@@ -1,8 +1,9 @@
 @import "partials/setup";
 
 * {
-  padding: 0;
+  // padding: 0;
   margin: 0;
+  font-family: "Gloria Hallelujah", cursive;
 }
 
 body {
@@ -12,15 +13,47 @@ body {
   background-color: rgb(110, 110, 110);
 }
 
+button {
+  padding: 5px 20px;
+  width: 100px;
+  background-color: transparent;
+  border: 5px solid #000;
+  font-weight: 700;
+  border-radius: 40px;
+}
+
+p {
+  font-weight: 600;
+}
+
 /* Game Screen Styling */
+.gameScreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .eventScreen {
   height: 65vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Generated Arrows Styling */
 .arrow {
   width: 50px;
   color: white;
+}
+.arrowsContainer {
+  max-width: 400px;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Controls Styling */
@@ -54,9 +87,9 @@ body {
 }
 
 .timer {
-  border: 1px solid #000;
+  width: 100%;
   .timeLeft {
-    background-color: rgb(7, 114, 202);
+    height: 5vh;
     width: 100%;
   }
 }

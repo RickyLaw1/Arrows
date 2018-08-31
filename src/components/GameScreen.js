@@ -18,7 +18,8 @@ class GameScreen extends Component {
       keyNumber: [0],
       keyPosition: 0,
       score: 0,
-      time: 10000
+      time: 10000,
+      level: 0
     };
   }
 
@@ -42,13 +43,12 @@ class GameScreen extends Component {
   };
 
   keyMultiplyer = () => {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < this.state.level + 1; i++) {
       this.screenKeySetter();
     }
   };
 
   validKeyCheck = keyToCheck => {
-    const validKeys = ["ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft"];
     const currentArrow = this.state.keysOnScreen[this.state.keyPosition]
       .keyName;
     let valid = false;
@@ -88,24 +88,34 @@ class GameScreen extends Component {
 
       // Generate a new set of arrows when the end of keys reached
       if (this.state.keyPosition === this.state.keysOnScreen.length - 1) {
-        this.setState({
-          keysOnScreen: this.state.keysOnScreen.splice(
-            0,
-            this.state.keyPosition + 1
-          ),
-          keyPosition: this.state.keyPosition * 0,
-          score: this.state.score + 1000
-        });
-        this.keyMultiplyer();
+        this.levelUp();
       }
 
       // Dont add to key positon if we reached the end
-      if (this.state.keyPosition != this.state.keysOnScreen.length - 1) {
+      if (this.state.keyPosition !== this.state.keysOnScreen.length - 1) {
         this.setState({
           keyPosition: this.state.keyPosition + 1
         });
       }
     }
+  };
+
+  levelUp = () => {
+    let newKeysOnScreen = Array.from(this.state.keysOnScreen);
+    const resetTime = 10000;
+    newKeysOnScreen = newKeysOnScreen.splice(this.state.keysOnScreen.length);
+
+    this.setState(
+      {
+        keysOnScreen: newKeysOnScreen,
+        keyPosition: this.state.keyPosition * 0,
+        score: this.state.score + 4000,
+        level: this.state.level + 1,
+        time: resetTime,
+        keyPosition: this.state.keyPosition * 0
+      },
+      () => this.keyMultiplyer()
+    );
   };
 
   keyUpChecker = e => {
@@ -124,7 +134,6 @@ class GameScreen extends Component {
       this.setState({ time: this.state.time - 100 });
       if (this.state.time === 0) {
         clearInterval(timer);
-        console.log(this.state.time);
       }
     }, 100);
   };
@@ -145,10 +154,19 @@ class GameScreen extends Component {
             keyMultiplyer={this.keyMultiplyer}
             startTime={this.startTime}
           />
-          {this.state.keyNumber.map((key, i) => {
-            // return <Randomize keyPress={this.state} key={i} />;
-          })}
+          <h2>
+            Level:
+            {this.state.level}
+          </h2>
         </div>
+        <button
+          onClick={() => {
+            this.keyMultiplyer();
+            this.startTime();
+          }}
+        >
+          Start
+        </button>
         {/* <ControlKeys keyDownHandler={this.keyDownChecker} keyUpHandler={this.keyUpChecker} /> */}
       </div>
     );
