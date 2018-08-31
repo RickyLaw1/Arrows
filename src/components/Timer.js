@@ -4,7 +4,7 @@ const Timer = props => {
   const timePercent = `${props.timeLeft / 100}%`;
   let colour = "rgb(7, 114, 202)";
 
-  if (props.timeLeft / 100 <= 30) {
+  if (props.timeLeft / 100 <= 25) {
     colour = "red";
   } else if (props.timeLeft / 100 <= 50) {
     colour = "yellow";

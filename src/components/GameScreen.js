@@ -9,6 +9,8 @@ import rightArrow from "./../assets/arrow-alt-circle-right-regular.svg";
 import correct from "./../assets/check-circle-solid.svg";
 import Score from "./Score";
 import Timer from "./Timer";
+import StartScreen from "./StartScreen";
+import GameOver from "./GameOver";
 
 class GameScreen extends Component {
   constructor() {
@@ -19,7 +21,8 @@ class GameScreen extends Component {
       keyPosition: 0,
       score: 0,
       time: 10000,
-      level: 0
+      level: 0,
+      gameOverScreen: "hidden"
     };
   }
 
@@ -102,14 +105,17 @@ class GameScreen extends Component {
 
   levelUp = () => {
     let newKeysOnScreen = Array.from(this.state.keysOnScreen);
-    const resetTime = 10000;
     newKeysOnScreen = newKeysOnScreen.splice(this.state.keysOnScreen.length);
+
+    const resetTime = 10000;
+    const score =
+      this.state.score + this.state.level * 400 + this.state.time / 100;
 
     this.setState(
       {
         keysOnScreen: newKeysOnScreen,
         keyPosition: this.state.keyPosition * 0,
-        score: this.state.score + 4000,
+        score,
         level: this.state.level + 1,
         time: resetTime,
         keyPosition: this.state.keyPosition * 0
@@ -133,9 +139,30 @@ class GameScreen extends Component {
     const timer = setInterval(() => {
       this.setState({ time: this.state.time - 100 });
       if (this.state.time === 0) {
+        this.setState({
+          gameOverScreen: "visible"
+        });
         clearInterval(timer);
       }
     }, 100);
+  };
+
+  restartGame = () => {
+    const restartTime = 10000;
+    this.setState(
+      {
+        keysOnScreen: [],
+        keyPosition: this.state.keyPosition * 0,
+        score: this.state.score * 0,
+        time: restartTime,
+        level: this.state.level * 0,
+        gameOverScreen: "hidden"
+      },
+      () => {
+        this.startTime();
+        this.keyMultiplyer();
+      }
+    );
   };
 
   render() {
@@ -159,14 +186,16 @@ class GameScreen extends Component {
             {this.state.level}
           </h2>
         </div>
-        <button
-          onClick={() => {
-            this.keyMultiplyer();
-            this.startTime();
-          }}
-        >
-          Start
-        </button>
+        <StartScreen
+          keyMultiplyer={this.keyMultiplyer}
+          startTime={this.startTime}
+        />
+        <GameOver
+          visibility={this.state.gameOverScreen}
+          score={this.state.score}
+          level={this.state.level}
+          restart={this.restartGame}
+        />
         {/* <ControlKeys keyDownHandler={this.keyDownChecker} keyUpHandler={this.keyUpChecker} /> */}
       </div>
     );
