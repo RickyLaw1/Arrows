@@ -31,6 +31,14 @@ class StartScreen extends Component {
         >
           Start
         </button>
+        {/* <button
+          onClick={() => {
+            this.props.showRooms();
+            this.hideScreen();
+          }}
+        >
+          MultiPlayer
+        </button> */}
       </div>
     );
   }

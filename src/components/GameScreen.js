@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Randomize from "./Randomize";
 import ControlKeys from "./ControlKeys";
 
 import upArrow from "./../assets/arrow-alt-circle-up-regular.svg";
@@ -7,23 +6,61 @@ import downArrow from "./../assets/arrow-alt-circle-down-regular.svg";
 import leftArrow from "./../assets/arrow-alt-circle-left-regular.svg";
 import rightArrow from "./../assets/arrow-alt-circle-right-regular.svg";
 import correct from "./../assets/check-circle-solid.svg";
+
+import Randomize from "./Randomize";
 import Score from "./Score";
 import Timer from "./Timer";
 import StartScreen from "./StartScreen";
 import GameOver from "./GameOver";
+import firebase from "./../firebase";
+import Rankings from "./Rankings";
+// import Lobby from "./Lobby";
+import Room from "./Room";
+
+const dbRef = firebase.database().ref();
 
 class GameScreen extends Component {
   constructor() {
     super();
     this.state = {
       keysOnScreen: [],
+      hiScores: [],
       keyNumber: [0],
       keyPosition: 0,
       score: 0,
       time: 10000,
       level: 0,
-      gameOverScreen: "hidden"
+      startGame: false,
+      multiplayer: false,
+      gameOverScreen: "hidden",
+      rankingsScreen: "hidden",
+      submitRankings: "hidden",
+      showRooms: "hidden",
+      currentRoom: "hidden"
     };
+  }
+
+  componentDidMount() {
+    dbRef.on("value", snapshot => {
+      const dbScores = snapshot.val().hiScores;
+
+      const hiScores = Object.keys(snapshot.val().hiScores).map(hiScoreKey => {
+        return {
+          name: dbScores[hiScoreKey].name,
+          level: dbScores[hiScoreKey].level,
+          score: dbScores[hiScoreKey].score,
+          key: hiScoreKey
+        };
+      });
+
+      hiScores.sort((a, b) => {
+        return b.score - a.score;
+      });
+
+      this.setState({
+        hiScores
+      });
+    });
   }
 
   random = number => Math.floor(Math.random() * number);
@@ -59,25 +96,29 @@ class GameScreen extends Component {
     if (keyToCheck === currentArrow) {
       valid = true;
     } else {
-      console.log("Wrong");
-      this.setState({
-        keysOnScreen: this.state.keysOnScreen.splice(
-          0,
-          this.state.keysOnScreen.length
-        ),
-        keyPosition: this.state.keyPosition * 0
-      });
-      this.keyMultiplyer();
+      this.setState(
+        {
+          keysOnScreen: [],
+          keyPosition: 0
+        },
+        () => this.keyMultiplyer()
+      );
     }
-
     return valid;
   };
 
   // Runs when a keydown event occurs
-  keyDownChecker = e => {
-    e.preventDefault();
-    // Will run if the keydown is one of the arrow keeys
-    if (this.validKeyCheck(e.key)) {
+  keyDownChecker = input => {
+    let keyInput;
+    if (input.key) {
+      keyInput = input.key;
+      // input.preventDefault();
+    } else {
+      keyInput = input;
+    }
+    if (this.state.startGame && this.validKeyCheck(keyInput)) {
+      // Will run if the keydown is one of the arrow keeys
+
       const keyDirection = this.state.keysOnScreen[this.state.keyPosition]; // Cloning state
 
       // Changing the states of the clone
@@ -92,13 +133,8 @@ class GameScreen extends Component {
       // Generate a new set of arrows when the end of keys reached
       if (this.state.keyPosition === this.state.keysOnScreen.length - 1) {
         this.levelUp();
-      }
-
-      // Dont add to key positon if we reached the end
-      if (this.state.keyPosition !== this.state.keysOnScreen.length - 1) {
-        this.setState({
-          keyPosition: this.state.keyPosition + 1
-        });
+      } else {
+        this.setState({ keyPosition: this.state.keyPosition + 1 });
       }
     }
   };
@@ -114,11 +150,10 @@ class GameScreen extends Component {
     this.setState(
       {
         keysOnScreen: newKeysOnScreen,
-        keyPosition: this.state.keyPosition * 0,
+        keyPosition: 0,
         score,
         level: this.state.level + 1,
-        time: resetTime,
-        keyPosition: this.state.keyPosition * 0
+        time: resetTime
       },
       () => this.keyMultiplyer()
     );
@@ -136,11 +171,18 @@ class GameScreen extends Component {
   };
 
   startTime = () => {
+    window.addEventListener("keydown", this.keyDownChecker);
+    this.setState({
+      startGame: true
+    });
+
     const timer = setInterval(() => {
       this.setState({ time: this.state.time - 100 });
       if (this.state.time === 0) {
         this.setState({
-          gameOverScreen: "visible"
+          gameOverScreen: "visible",
+          startGame: false,
+          submitRankings: "visible"
         });
         clearInterval(timer);
       }
@@ -156,7 +198,8 @@ class GameScreen extends Component {
         score: this.state.score * 0,
         time: restartTime,
         level: this.state.level * 0,
-        gameOverScreen: "hidden"
+        gameOverScreen: "hidden",
+        submitRankings: "hidden"
       },
       () => {
         this.startTime();
@@ -165,16 +208,65 @@ class GameScreen extends Component {
     );
   };
 
+  postScore = name => {
+    const scoreDbRef = firebase.database().ref("/hiScores");
+    scoreDbRef.push({
+      name,
+      level: this.state.level,
+      score: this.state.score
+    });
+
+    this.setState({
+      rankingsScreen: "visible"
+    });
+  };
+
+  closeRankings = () => {
+    this.setState({
+      rankingsScreen: "hidden"
+    });
+  };
+
+  hideSubmission = () => {
+    this.setState({
+      submitRankings: "hidden"
+    });
+  };
+
+  showRooms = () => {
+    this.setState({
+      showRooms: "visible"
+    });
+  };
+
+  hideRooms = () => {
+    this.setState({
+      showRooms: "hidden"
+    });
+  };
+
+  joinRoom = () => {
+    const roomDbRef = firebase.database().ref("/rooms/room");
+    roomDbRef.push({
+      joined: true
+    });
+  };
+
+  showCurrentRoom = () => {
+    this.setState({
+      currentRoom: "visible"
+    });
+  };
+
+  clickHandler = arrow => {
+    this.keyDownChecker(arrow);
+  };
+
   render() {
     return (
-      <div
-        className="gameScreen"
-        onKeyDown={this.keyDownChecker}
-        onKeyUp={this.keyUpChecker}
-        tabIndex="0"
-      >
+      <div className="gameScreen">
         <Timer timeLeft={this.state.time} />
-        <Score score={this.state.score} />
+        {/* <Score score={this.state.score} /> */}
         <div className="eventScreen">
           <Randomize
             keyPress={this.state}
@@ -189,14 +281,36 @@ class GameScreen extends Component {
         <StartScreen
           keyMultiplyer={this.keyMultiplyer}
           startTime={this.startTime}
+          showRooms={this.showRooms}
         />
         <GameOver
           visibility={this.state.gameOverScreen}
           score={this.state.score}
           level={this.state.level}
           restart={this.restartGame}
+          postScore={this.postScore}
+          closeRankings={this.state.rankingsScreen}
+          submitRankings={this.state.submitRankings}
+          hideSubmission={this.hideSubmission}
         />
-        {/* <ControlKeys keyDownHandler={this.keyDownChecker} keyUpHandler={this.keyUpChecker} /> */}
+        <Rankings
+          hiScores={this.state.hiScores}
+          rankingsScreen={this.state.rankingsScreen}
+          close={this.closeRankings}
+        />
+        {/* <Lobby
+          showRooms={this.state.showRooms}
+          joinRoom={this.joinRoom}
+          hideRooms={this.hideRooms}
+          restartGame={this.restartGame}
+          showCurrentRoom={this.showCurrentRoom}
+        /> */}
+        <Room currentRoom={this.state.currentRoom} />
+        <ControlKeys
+          keyDownHandler={this.keyDownChecker}
+          keyUpHandler={this.keyUpChecker}
+          clickHandler={this.clickHandler}
+        />
       </div>
     );
   }
