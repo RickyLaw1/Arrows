@@ -137,6 +137,22 @@ button.playAgain {
   .results {
     text-align: center;
   }
+  .exit {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 0;
+    right: 0;
+    margin-top: 5%;
+    margin-right: 5%;
+    padding: 5px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(255, 0, 0, 0.664);
+    }
+  }
   input[type="text"] {
     width: 65%;
   }
@@ -164,6 +180,7 @@ button.playAgain {
   padding: 10px;
   overflow-y: scroll;
   z-index: 10;
+  cursor: default;
   h2 {
     text-decoration: underline;
   }

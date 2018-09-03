@@ -32,6 +32,7 @@ class GameScreen extends Component {
       level: 0,
       startGame: false,
       multiplayer: false,
+      startScreen: "visible",
       gameOverScreen: "hidden",
       rankingsScreen: "hidden",
       submitRankings: "hidden",
@@ -211,6 +212,26 @@ class GameScreen extends Component {
     });
   };
 
+  showStartScreen = () => {
+    this.setState({
+      startScreen: "visible"
+    });
+  };
+
+  hideStartScreen = () => {
+    this.setState({
+      startScreen: "hidden"
+    });
+  };
+
+  hideGameOver = () => {
+    this.setState({ gameOverScreen: "hidden" });
+  };
+
+  showRankings = () => {
+    this.setState({ rankingsScreen: "visible" });
+  };
+
   closeRankings = () => {
     this.setState({
       rankingsScreen: "hidden"
@@ -269,9 +290,11 @@ class GameScreen extends Component {
           </h2>
         </div>
         <StartScreen
-          keyMultiplyer={this.keyMultiplyer}
-          startTime={this.startTime}
+          startScreen={this.state.startScreen}
+          hideStartScreen={this.hideStartScreen}
           showRooms={this.showRooms}
+          showRankings={this.showRankings}
+          restartGame={this.restartGame}
         />
         <GameOver
           visibility={this.state.gameOverScreen}
@@ -282,6 +305,8 @@ class GameScreen extends Component {
           closeRankings={this.state.rankingsScreen}
           submitRankings={this.state.submitRankings}
           hideSubmission={this.hideSubmission}
+          showStartScreen={this.showStartScreen}
+          hideGameOver={this.hideGameOver}
         />
         <Rankings
           hiScores={this.state.hiScores}

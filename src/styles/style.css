@@ -272,6 +272,20 @@ button.playAgain {
   z-index: 10; }
   .gameOverScreen .results {
     text-align: center; }
+  .gameOverScreen .exit {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 0;
+    right: 0;
+    margin-top: 5%;
+    margin-right: 5%;
+    padding: 5px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    cursor: pointer; }
+    .gameOverScreen .exit:hover {
+      background-color: rgba(255, 0, 0, 0.664); }
   .gameOverScreen input[type="text"] {
     width: 65%; }
   .gameOverScreen input[type="submit"] {
@@ -295,7 +309,8 @@ button.playAgain {
   width: 85%;
   padding: 10px;
   overflow-y: scroll;
-  z-index: 10; }
+  z-index: 10;
+  cursor: default; }
   .rankings h2 {
     text-decoration: underline; }
 

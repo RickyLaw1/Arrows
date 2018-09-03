@@ -31,7 +31,7 @@ class StartScreen extends Component {
     return (
       <div
         className="startScreen"
-        style={{ visibility: this.state.visibility }}
+        style={{ visibility: this.props.startScreen }}
       >
         <h1 style={{ animation: this.state.hover }}>Arrows</h1>
         <button
@@ -39,13 +39,13 @@ class StartScreen extends Component {
           onMouseEnter={this.handleHover}
           onMouseLeave={this.handleHoverOff}
           onClick={() => {
-            this.props.keyMultiplyer();
-            this.props.startTime();
-            this.hideScreen();
+            this.props.restartGame();
+            this.props.hideStartScreen();
           }}
         >
           Start
         </button>
+        <button onClick={this.props.showRankings}>Rankings</button>
         {/* <button
           onClick={() => {
             this.props.showRooms();

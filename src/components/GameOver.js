@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import exit from "./../assets/sign-out-alt-solid.svg";
 
 class GameOver extends Component {
   constructor() {
@@ -51,6 +52,16 @@ class GameOver extends Component {
         className="gameOverScreen"
         style={{ visibility: this.props.visibility }}
       >
+        <img
+          src={exit}
+          alt=""
+          className="exit"
+          onClick={() => {
+            this.props.showStartScreen();
+            this.props.hideGameOver();
+            this.props.hideSubmission();
+          }}
+        />
         <h2>Game Over</h2>
         <div className="results">
           <p>Score: {this.props.score}</p>
