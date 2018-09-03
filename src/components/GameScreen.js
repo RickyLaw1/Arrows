@@ -8,7 +8,7 @@ import rightArrow from "./../assets/arrow-alt-circle-right-regular.svg";
 import correct from "./../assets/check-circle-solid.svg";
 
 import Randomize from "./Randomize";
-import Score from "./Score";
+// import Score from "./Score";
 import Timer from "./Timer";
 import StartScreen from "./StartScreen";
 import GameOver from "./GameOver";
@@ -118,8 +118,8 @@ class GameScreen extends Component {
     }
     if (this.state.startGame && this.validKeyCheck(keyInput)) {
       // Will run if the keydown is one of the arrow keeys
-
-      const keyDirection = this.state.keysOnScreen[this.state.keyPosition]; // Cloning state
+      const newArray = Array.from(this.state.keysOnScreen);
+      const keyDirection = newArray[this.state.keyPosition]; // Cloning state
 
       // Changing the states of the clone
       keyDirection.pressed = true;
@@ -127,7 +127,8 @@ class GameScreen extends Component {
 
       // Setting the state to be equal to our clone
       this.setState(
-        (this.state.keysOnScreen[this.state.keyPosition] = keyDirection)
+        // (this.state.keysOnScreen[this.state.keyPosition] = keyDirection)
+        { keysOnScreen: newArray }
       );
 
       // Generate a new set of arrows when the end of keys reached
@@ -157,17 +158,6 @@ class GameScreen extends Component {
       },
       () => this.keyMultiplyer()
     );
-  };
-
-  keyUpChecker = e => {
-    if (true) {
-      const keyDirection = this.state.keysOnScreen[this.state.keyPosition];
-      keyDirection.pressed = false;
-
-      this.setState(
-        (this.state.keysOnScreen[this.state.keyPosition] = keyDirection)
-      );
-    }
   };
 
   startTime = () => {

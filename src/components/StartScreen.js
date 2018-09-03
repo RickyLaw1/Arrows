@@ -4,7 +4,8 @@ class StartScreen extends Component {
   constructor() {
     super();
     this.state = {
-      visibility: "auto"
+      visibility: "auto",
+      hover: ""
     };
   }
 
@@ -14,15 +15,29 @@ class StartScreen extends Component {
     });
   };
 
+  handleHover = () => {
+    this.setState({
+      hover: `gradientChange 1s infinite ease`
+    });
+  };
+
+  handleHoverOff = () => {
+    this.setState({
+      hover: ""
+    });
+  };
+
   render() {
     return (
       <div
         className="startScreen"
         style={{ visibility: this.state.visibility }}
       >
-        <h1>Arrows</h1>
+        <h1 style={{ animation: this.state.hover }}>Arrows</h1>
         <button
           className="startButton"
+          onMouseEnter={this.handleHover}
+          onMouseLeave={this.handleHoverOff}
           onClick={() => {
             this.props.keyMultiplyer();
             this.props.startTime();

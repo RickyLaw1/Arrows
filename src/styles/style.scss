@@ -13,6 +13,37 @@ body {
   background-color: rgb(110, 110, 110);
 }
 
+h1 {
+  margin-bottom: 30px;
+  transition: 0.1s;
+  &:hover {
+    animation: gradientChange 1s infinite ease;
+  }
+}
+
+@keyframes gradientChange {
+  0% {
+    color: rgb(0, 68, 255);
+    text-shadow: 1px 1px 100px rgb(0, 68, 255);
+  }
+  25% {
+    color: rgb(0, 255, 21);
+    text-shadow: 1px 1px 100px rgb(0, 255, 21);
+  }
+  50% {
+    color: rgb(255, 251, 0);
+    text-shadow: 1px 1px 100px rgb(255, 251, 0);
+  }
+  75% {
+    color: rgb(255, 0, 0);
+    text-shadow: 1px 1px 100px rgb(255, 0, 0);
+  }
+  100% {
+    color: rgb(0, 68, 255);
+    text-shadow: 1px 1px 100px rgb(0, 68, 255);
+  }
+}
+
 p {
   font-weight: 600;
 }
@@ -74,11 +105,17 @@ button.playAgain {
 }
 
 .eventScreen {
-  height: 65vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .eventScreen {
+    height: 65vh;
+  }
 }
 
 .gameOverScreen {
@@ -105,6 +142,9 @@ button.playAgain {
   }
   input[type="submit"] {
     width: 35%;
+    font-weight: 600;
+    background-color: rgb(110, 110, 110);
+    border: 2px solid #000;
   }
 }
 
@@ -186,6 +226,7 @@ button.playAgain {
 
 /* Controls Styling */
 .controlKeys {
+  display: none;
   position: relative;
   height: 197px;
   width: 320px;
@@ -210,6 +251,12 @@ button.playAgain {
   .ArrowRight {
     right: 0;
     bottom: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .controlKeys {
+    display: block;
   }
 }
 

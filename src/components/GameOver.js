@@ -4,7 +4,9 @@ class GameOver extends Component {
   constructor() {
     super();
     this.state = {
-      nameSubmission: ""
+      nameSubmission: "",
+      showAlert: "hidden",
+      alertMsg: ""
     };
   }
 
@@ -19,17 +21,27 @@ class GameOver extends Component {
 
     if (this.state.nameSubmission) {
       if (this.props.level === 0) {
-        console.log("Level too low");
+        this.setState({
+          showAlert: "visible",
+          alertMsg: "Please score higher..."
+        });
       } else {
         this.props.postScore(this.state.nameSubmission);
         this.props.hideSubmission();
       }
     } else {
-      console.log("Invalid Name");
+      this.setState({ showAlert: "visible", alertMsg: "Invalid Name" });
     }
 
     this.setState({
       nameSubmission: ""
+    });
+  };
+
+  removeAlert = () => {
+    this.setState({
+      showAlert: "",
+      alertMsg: ""
     });
   };
 
@@ -44,6 +56,9 @@ class GameOver extends Component {
           <p>Score: {this.props.score}</p>
           <p>Level {this.props.level}</p>
         </div>
+        <p style={{ visibility: this.state.showAlert }}>
+          {this.state.alertMsg}
+        </p>
         <form
           action=""
           onSubmit={this.handleSubmit}
@@ -57,7 +72,13 @@ class GameOver extends Component {
           />
           <input type="submit" value="Rank me!" />
         </form>
-        <button className="playAgain" onClick={this.props.restart}>
+        <button
+          className="playAgain"
+          onClick={() => {
+            this.props.restart();
+            this.removeAlert();
+          }}
+        >
           Play Again
         </button>
       </div>

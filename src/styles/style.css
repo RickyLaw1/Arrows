@@ -169,6 +169,29 @@ body {
   font-family: sans-serif;
   background-color: #6e6e6e; }
 
+h1 {
+  margin-bottom: 30px;
+  transition: 0.1s; }
+  h1:hover {
+    animation: gradientChange 1s infinite ease; }
+
+@keyframes gradientChange {
+  0% {
+    color: #0044ff;
+    text-shadow: 1px 1px 100px #0044ff; }
+  25% {
+    color: #00ff15;
+    text-shadow: 1px 1px 100px #00ff15; }
+  50% {
+    color: #fffb00;
+    text-shadow: 1px 1px 100px #fffb00; }
+  75% {
+    color: red;
+    text-shadow: 1px 1px 100px red; }
+  100% {
+    color: #0044ff;
+    text-shadow: 1px 1px 100px #0044ff; } }
+
 p {
   font-weight: 600; }
 
@@ -221,11 +244,15 @@ button.playAgain {
   align-items: center; }
 
 .eventScreen {
-  height: 65vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center; }
+
+@media (max-width: 768px) {
+  .eventScreen {
+    height: 65vh; } }
 
 .gameOverScreen {
   height: 70vh;
@@ -248,7 +275,10 @@ button.playAgain {
   .gameOverScreen input[type="text"] {
     width: 65%; }
   .gameOverScreen input[type="submit"] {
-    width: 35%; }
+    width: 35%;
+    font-weight: 600;
+    background-color: #6e6e6e;
+    border: 2px solid #000; }
 
 .rankings {
   height: 70vh;
@@ -319,6 +349,7 @@ button.playAgain {
 
 /* Controls Styling */
 .controlKeys {
+  display: none;
   position: relative;
   height: 197px;
   width: 320px; }
@@ -339,6 +370,10 @@ button.playAgain {
   .controlKeys .ArrowRight {
     right: 0;
     bottom: 0; }
+
+@media (max-width: 768px) {
+  .controlKeys {
+    display: block; } }
 
 .timer {
   position: absolute;
