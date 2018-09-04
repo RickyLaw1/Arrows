@@ -60,6 +60,7 @@ class GameOver extends Component {
             this.props.showStartScreen();
             this.props.hideGameOver();
             this.props.hideSubmission();
+            this.removeAlert();
           }}
         />
         <h2>Game Over</h2>
