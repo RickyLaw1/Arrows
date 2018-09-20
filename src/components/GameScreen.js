@@ -37,7 +37,8 @@ class GameScreen extends Component {
       rankingsScreen: "hidden",
       submitRankings: "hidden",
       showRooms: "hidden",
-      currentRoom: "hidden"
+      currentRoom: "hidden",
+      demoNight: false,
     };
   }
 
@@ -164,7 +165,8 @@ class GameScreen extends Component {
   startTime = () => {
     window.addEventListener("keydown", this.keyDownChecker);
     this.setState({
-      startGame: true
+      startGame: true,
+      demoNight: this.props.demoNight,
     });
 
     const timer = setInterval(() => {
@@ -201,11 +203,23 @@ class GameScreen extends Component {
 
   postScore = name => {
     const scoreDbRef = firebase.database().ref("/hiScores");
+    const demoNightDbRef = firebase.database().ref("/demoNight");
+
     scoreDbRef.push({
       name,
       level: this.state.level,
       score: this.state.score
     });
+
+    if (this.state.demoNight) {
+      console.log('demodemodemo');
+      
+      demoNightDbRef.push({
+        name,
+        level: this.state.level,
+        score: this.state.score
+      })
+    }
 
     this.setState({
       rankingsScreen: "visible"
