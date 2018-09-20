@@ -34,6 +34,7 @@ class App extends Component {
     return (
       <div className="App">
         <GameScreen demoNight={this.state.demoNight}/>
+        {this.state.demoNight ? <h5>WELCOME TO DEMO NIGHT! Try to get a highscore!</h5> : null  }
       </div>
     );
   }

@@ -39,12 +39,19 @@ class GameScreen extends Component {
       showRooms: "hidden",
       currentRoom: "hidden",
       demoNight: false,
+      demoNightScores: [],
+      allTimeScores: [],
     };
   }
 
   componentDidMount() {
+    this.setState({
+      demoNight: this.props.demoNight
+    })
+
     dbRef.on("value", snapshot => {
       const dbScores = snapshot.val().hiScores;
+      const demoScores = snapshot.val().demoNight;
 
       const hiScores = Object.keys(snapshot.val().hiScores).map(hiScoreKey => {
         return {
@@ -59,10 +66,23 @@ class GameScreen extends Component {
         return b.score - a.score;
       });
 
+      const demoNightScores = Object.keys(snapshot.val().demoNight).map(hiScoreKey => {
+        return {
+          name: demoScores[hiScoreKey].name,
+          level: demoScores[hiScoreKey].level,
+          score: demoScores[hiScoreKey].score,
+          key: hiScoreKey
+        };
+      });
+
       this.setState({
-        hiScores
+        allTimeScores: hiScores,
+        demoNightScores,
+        hiScores: demoNightScores,
       });
     });
+
+    
   }
 
   random = number => Math.floor(Math.random() * number);
@@ -167,6 +187,8 @@ class GameScreen extends Component {
     this.setState({
       startGame: true,
       demoNight: this.props.demoNight,
+      hiScores: this.state.demoNightScores
+      
     });
 
     const timer = setInterval(() => {
@@ -175,7 +197,7 @@ class GameScreen extends Component {
         this.setState({
           gameOverScreen: "visible",
           startGame: false,
-          submitRankings: "visible"
+          submitRankings: "visible",
         });
         clearInterval(timer);
       }
@@ -212,7 +234,6 @@ class GameScreen extends Component {
     });
 
     if (this.state.demoNight) {
-      console.log('demodemodemo');
       
       demoNightDbRef.push({
         name,
@@ -222,9 +243,21 @@ class GameScreen extends Component {
     }
 
     this.setState({
-      rankingsScreen: "visible"
+      rankingsScreen: "visible",
+      
     });
   };
+
+  showAllTime = () => {
+    this.setState({
+      hiScores: this.state.allTimeScores
+    })
+  }
+  showDemoNight = () => {
+    this.setState({
+      hiScores: this.state.demoNightScores
+    })
+  }
 
   showStartScreen = () => {
     this.setState({
@@ -243,7 +276,10 @@ class GameScreen extends Component {
   };
 
   showRankings = () => {
-    this.setState({ rankingsScreen: "visible" });
+    this.setState({ 
+      rankingsScreen: "visible",
+      hiScores: this.state.demoNightScores
+    });
   };
 
   closeRankings = () => {
@@ -324,6 +360,10 @@ class GameScreen extends Component {
         />
         <Rankings
           hiScores={this.state.hiScores}
+          demoScores={this.state.demoNightScores}
+          demoNight={this.state.demoNight}
+          showAllTime={this.showAllTime}
+          showDemoNight={this.showDemoNight}
           rankingsScreen={this.state.rankingsScreen}
           close={this.closeRankings}
         />

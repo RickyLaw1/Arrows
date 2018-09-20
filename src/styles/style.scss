@@ -21,6 +21,13 @@ h1 {
   }
 }
 
+h5 {
+  font-size: 20px;
+  position: absolute;
+  bottom: 0;
+  z-index: 100;
+}
+
 @keyframes gradientChange {
   0% {
     color: rgb(0, 68, 255);
@@ -74,12 +81,17 @@ button.playAgain {
   text-align: center;
   font-size: 25px;
   position: absolute;
-  right: 0;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: black;
+    color: rgb(110, 110, 110);;
+  }
   p {
     position: relative;
     top: -15px;
   }
-  cursor: pointer;
 }
 
 /* Screen Styling */
@@ -164,6 +176,14 @@ button.playAgain {
   }
 }
 
+
+.rankingsTitle {
+  position: absolute;
+  top: calc(15vh - 48px);
+  left: 40%;
+  text-decoration: underline;
+  z-index: 10;
+}
 .rankings {
   height: 70vh;
   position: absolute;
@@ -177,13 +197,46 @@ button.playAgain {
   align-items: flex-start;
   max-width: 400px;
   width: 85%;
-  padding: 10px;
+  padding: 20px;
   overflow-y: scroll;
   z-index: 10;
+  // position: relative;
+  border-top-left-radius: 50px;
   cursor: default;
-  h2 {
-    text-decoration: underline;
+  input {
+    display: none;
+    &#demo:checked ~ .demo{
+      background-color: black;
+      color: rgb(110, 110, 110);;
+    }
+    &#allTime:checked ~ .allTime{
+      background-color: black;
+      color: rgb(110, 110, 110);;
+    }
   }
+}
+.leaderboard {
+  display: inline-block;
+  // position: absolute;
+  font-weight: 700;
+  border: 2px solid #000;
+  border-radius: 20px;
+  padding: 0 10px;
+  margin-bottom: 10px;
+  &:hover {
+    background-color: black;
+    color: rgb(110, 110, 110);
+    cursor: pointer;
+  }
+}
+
+.allTime {
+  position: absolute;
+  left: 145px;
+}
+.demo {
+  // position: absolute;
+  top: 0;
 }
 
 .lobby {
