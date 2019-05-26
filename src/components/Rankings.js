@@ -20,10 +20,10 @@ class Rankings extends Component {
           className="rankings"
           style={{ visibility: this.props.rankingsScreen }}
         >
-          <input type="radio" name="leaderBoard"id="demo" defaultChecked/>
-          <input type="radio" name="leaderBoard"id="allTime"/>
-          <label htmlFor="demo" className="leaderboard demo" onClick={this.props.showDemoNight}>Demo Night</label>
+          <input type="radio" name="leaderBoard"id="allTime" defaultChecked/>
+          <input type="radio" name="leaderBoard"id="demo"/>
           <label htmlFor="allTime" className="leaderboard allTime" onClick={this.props.showAllTime}>All Time</label>
+          <label htmlFor="demo" className="leaderboard demo" onClick={this.props.showDemoNight}>Demo Night</label>
           <span className="close" onClick={this.props.close}>
             <p>x</p>
           </span>

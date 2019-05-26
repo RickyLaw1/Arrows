@@ -21,6 +21,10 @@ h1 {
   }
 }
 
+h3 {
+  line-height: 1;
+}
+
 h5 {
   font-size: 20px;
   position: absolute;
@@ -230,13 +234,18 @@ button.playAgain {
   }
 }
 
-.allTime {
-  position: absolute;
-  left: 145px;
+.entry {
+  margin-bottom: 15px;
 }
+
+.allTime {
+  margin-bottom: 20px;
+}
+
 .demo {
-  // position: absolute;
-  top: 0;
+  position: absolute;
+  top: 20px;
+  left: 120px;
 }
 
 .lobby {

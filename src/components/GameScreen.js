@@ -53,7 +53,7 @@ class GameScreen extends Component {
       const dbScores = snapshot.val().hiScores;
       const demoScores = snapshot.val().demoNight;
 
-      const hiScores = Object.keys(snapshot.val().hiScores).map(hiScoreKey => {
+      const hiScores = Object.keys(dbScores).map(hiScoreKey => {
         return {
           name: dbScores[hiScoreKey].name,
           level: dbScores[hiScoreKey].level,
@@ -66,7 +66,7 @@ class GameScreen extends Component {
         return b.score - a.score;
       });
 
-      const demoNightScores = Object.keys(snapshot.val().demoNight).map(hiScoreKey => {
+      const demoNightScores = Object.keys(demoScores).map(hiScoreKey => {
         return {
           name: demoScores[hiScoreKey].name,
           level: demoScores[hiScoreKey].level,
@@ -75,10 +75,14 @@ class GameScreen extends Component {
         };
       });
 
+      demoNightScores.sort((a, b) => {
+        return b.score - a.score;
+      });
+
       this.setState({
         allTimeScores: hiScores,
         demoNightScores,
-        hiScores: demoNightScores,
+        hiScores,
       });
     });
 
@@ -278,7 +282,7 @@ class GameScreen extends Component {
   showRankings = () => {
     this.setState({ 
       rankingsScreen: "visible",
-      hiScores: this.state.demoNightScores
+      hiScores: this.state.allTimeScores
     });
   };
 
